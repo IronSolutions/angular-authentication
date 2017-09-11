@@ -24,6 +24,7 @@ export class SessionService {
     this.isLoggedIn().subscribe( (user:User) =>{
       console.log(`Welcome again user ${user.username}`)
       this.user = user;
+      this.loginEvent.emit(this.user);
       this.startLoginCompleted = true;
     }, e => this.startLoginCompleted = true);
   }
