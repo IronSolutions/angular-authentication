@@ -15,6 +15,7 @@ export interface User{
 @Injectable()
 export class SessionService {
   user:User; // The current logged in user
+  loginEvent:EventEmitter = new EventEmitter();
   startLoginCompleted:boolean = false;
   BASE_URL:string=`${environment.BASE_URL}/api/auth`;
   options:object = {withCredentials:true};
@@ -42,6 +43,7 @@ export class SessionService {
     return this.http.post(`${this.BASE_URL}/login`, {username,password}, this.options)
       .map(res => {
         this.user = res.json();
+        this.loginEvent.emit(this.user);
         return this.user;
       })
       .catch(this.handleError);
